@@ -216,7 +216,35 @@ func (s *WebSource) launchChrome(ctx context.Context, p *config.PipelineConfig, 
 	opts := []chromedp.ExecAllocatorOption{
 		chromedp.NoFirstRun,
 		chromedp.NoDefaultBrowserCheck,
-		chromedp.DisableGPU,
+		// chromedp.DisableGPU,	// To enable webGL we need GPU
+
+		chromedp.Flag("use-angle", "vulkan"),
+		chromedp.Flag("enable-unsafe-webgpu", true),
+		chromedp.Flag("use-cmd-decoder", "passthrough"),
+
+		chromedp.Flag("enable-gpu-rasterization", true),
+		chromedp.Flag("enable-zero-copy", true),
+		chromedp.Flag("disable-software-rasterizer", true),
+		chromedp.Flag("enable-accelerated-video-decode", true),
+		chromedp.Flag("enable-accelerated-2d-canvas", true),
+		chromedp.Flag("single-process", true),
+		chromedp.Flag("js-flags", "--expose-gc --max-old-space-size=8192"),
+		chromedp.Flag("memory-pressure-off", true),
+		chromedp.Flag("max-connections-per-host", "15"),
+		chromedp.Flag("disable-notifications", true),
+		chromedp.Flag("disable-geolocation", true),
+		chromedp.Flag("enable-features", "VaapiVideoDecoder"),
+		
+		// chromedp.Flag("disable-gpu-driver-bug-workarounds", true),
+
+		// NVIDIA specific flags
+		// chromedp.Flag("enable-gpu-memory-buffer-compositor-resources", true),
+		// chromedp.Flag("enable-native-gpu-memory-buffers", true),
+		// Disable vsync to potentially improve performance
+		// chromedp.Flag("disable-gpu-vsync", true),
+
+		// Enable Vulkan (if supported by your system)
+		// chromedp.Flag("enable-features", "Vulkan,UseSkiaRenderer"),
 
 		// puppeteer default behavior
 		chromedp.Flag("disable-infobars", true),

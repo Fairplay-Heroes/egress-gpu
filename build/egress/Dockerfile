@@ -57,7 +57,7 @@ ARG TARGETPLATFORM
 
 # install deps
 RUN apt-get update && \
-    apt-get install -y \
+ apt-get install -y \
     curl \
     fonts-noto \
     gnupg \
@@ -65,11 +65,48 @@ RUN apt-get update && \
     unzip \
     wget \
     xvfb \
-    gstreamer1.0-plugins-base-
+	ca-certificates \
+	xorg \
+	xserver-xorg \
+	libx11-dev \
+	libxext-dev \
+    libnss3 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libasound2 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libegl1 \
+    libgl1-mesa-dri \
+    libgles2 \
+    libpulse0 \
+    libx11-xcb1 \
+    build-essential \
+    libvulkan1 \
+    libgl1 \
+	libxcb-dri3-0 \
+	libxtst6 \
+	libxext6 \
+	libx11-6 \
+	mesa-utils \
+	x11-utils \
+	libgl1-mesa-dri \
+	gstreamer1.0-plugins-base-
 
 # install chrome
 COPY --from=livekit/chrome-installer:125.0.6422.141 /chrome-installer /chrome-installer
 RUN /chrome-installer/install-chrome "$TARGETPLATFORM"
+
+# install any missing deps
+RUN apt-get -f install -y
 
 # clean up
 RUN rm -rf /var/lib/apt/lists/*
@@ -78,7 +115,6 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN useradd -ms /bin/bash -g root -G sudo,pulse,pulse-access egress
 RUN mkdir -p home/egress/tmp home/egress/.cache/xdgr && \
     chown -R egress /home/egress
-
 
 # copy files
 COPY --from=0 /workspace/egress /bin/
@@ -90,4 +126,7 @@ USER egress
 ENV PATH=${PATH}:/chrome
 ENV XDG_RUNTIME_DIR=/home/egress/.cache/xdgr
 ENV CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=all
+
 ENTRYPOINT ["/entrypoint.sh"]
