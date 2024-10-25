@@ -8,7 +8,7 @@
 ```
 - Pushing the container to Docker Hub.
 ``` bash
-	docker push quitalizner/egress-gpu:v1
+	docker push quitalizner/egress-gpu:v{VERSION_NUMBER} 
 ```
 
 - In case your docker is running out of space
@@ -151,7 +151,7 @@ To check latest version of Nvidia driver available for the current distriubtion,
 
 	# On your local system
 	# Open a new terminal and run the following command. # This will forward the remote debugging port 9222 to your local system
-	ssh -i "vc-demo-server.pem" -L 9222:localhost:9222 ubuntu@ec2-44-200-176-65.compute-1.amazonaws.com
+	ssh -i "vc-demo-server.pem" -L 9222:localhost:9222 ubuntu@ec2-3-226-251-82.compute-1.amazonaws.com
 	
 	# Open Chrome browser and go to chrome://inspect
 	# Click on Configure...
