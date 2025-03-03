@@ -4,11 +4,11 @@
 
 - Make the necessary changes and run the docker build command to create the GPU-enabled Egress container.
 ``` bash
-	docker buildx build --no-cache --platform linux/amd64 -t quitalizner/egress-gpu:v{VERSION_NUMBER} --push -f build/egress/Dockerfile .
+	docker buildx build --no-cache --platform linux/amd64 -t 2real/egress-with-gpu:v{VERSION_NUMBER} --push -f build/egress/Dockerfile .
 ```
 - Pushing the container to Docker Hub.
 ``` bash
-	docker push quitalizner/egress-gpu:v{VERSION_NUMBER} 
+	docker push 2real/egress-with-gpu:v{VERSION_NUMBER}
 ```
 
 - In case your docker is running out of space
